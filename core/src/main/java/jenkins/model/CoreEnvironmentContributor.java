@@ -24,6 +24,11 @@ import java.io.IOException;
 public class CoreEnvironmentContributor extends EnvironmentContributor {
     @Override
     public void buildEnvironmentFor(Run r, EnvVars env, TaskListener listener) throws IOException, InterruptedException {
+        Computer c = Computer.currentComputer();
+        if (c!=null){
+            EnvVars compEnv = c.getEnvironment().overrideAll(env);
+            env.putAll(compEnv);
+        }
         env.put("BUILD_DISPLAY_NAME",r.getDisplayName());
 
         Jenkins j = Jenkins.getInstance();
