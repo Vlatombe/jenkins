@@ -179,7 +179,6 @@ import jenkins.ExtensionComponentSet;
 import jenkins.ExtensionRefreshException;
 import jenkins.InitReactorRunner;
 import jenkins.install.InstallState;
-import jenkins.install.InstallUtil;
 import jenkins.install.SetupWizard;
 import jenkins.model.ProjectNamingStrategy.DefaultProjectNamingStrategy;
 import jenkins.security.ConfidentialKey;
@@ -922,9 +921,6 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
             if(KILL_AFTER_LOAD)
                 // TODO cleanUp?
                 System.exit(0);
-
-            setupWizard = new SetupWizard();
-            getInstallState().initializeState();
 
             launchTcpSlaveAgentListener();
 
@@ -3089,6 +3085,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
 
         g.requires(JOB_LOADED).add("Finalizing set up",new Executable() {
             public void run(Reactor session) throws Exception {
+                setupWizard = new SetupWizard();
+                getInstallState().initializeState();
                 rebuildDependencyGraph();
 
                 {// recompute label objects - populates the labels mapping.
