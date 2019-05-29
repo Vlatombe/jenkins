@@ -301,8 +301,8 @@ public class NodeProvisioner {
 
                     if (queueLengthSnapshot <= availableSnapshot) {
                         LOGGER.log(Level.FINER,
-                                "Queue length {0} is less than the available capacity {1}. No provisioning strategy required",
-                                new Object[]{queueLengthSnapshot, availableSnapshot});
+                                "[{2}] Queue length {0} is less than the available capacity {1}. No provisioning strategy required",
+                                new Object[]{queueLengthSnapshot, availableSnapshot, label});
                         provisioningState = null;
                     } else {
                         provisioningState = new StrategyState(snapshot, label, plannedCapacitySnapshot);
