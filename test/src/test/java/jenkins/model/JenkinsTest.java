@@ -28,6 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -60,6 +61,7 @@ import hudson.model.User;
 import hudson.security.FullControlOnceLoggedInAuthorizationStrategy;
 import hudson.security.GlobalMatrixAuthorizationStrategy;
 import hudson.security.HudsonPrivateSecurityRealm;
+import hudson.security.SecurityRealm;
 import hudson.slaves.ComputerListener;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.OfflineCause;
@@ -70,6 +72,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,6 +89,7 @@ import org.jvnet.hudson.test.JenkinsRule.WebClient;
 import org.jvnet.hudson.test.MockAuthorizationStrategy;
 import org.jvnet.hudson.test.SmokeTest;
 import org.jvnet.hudson.test.TestExtension;
+import org.jvnet.hudson.test.recipes.LocalData;
 import org.jvnet.hudson.test.recipes.WithPlugin;
 import org.kohsuke.stapler.HttpResponse;
 import org.mockito.ArgumentCaptor;
@@ -769,6 +776,18 @@ public class JenkinsTest {
 
         j.jenkins.trimLabels();
         assertThat(j.jenkins.getLabels().contains(l), is(true));
+    }
+
+    @LocalData
+    @Test
+    public void reloadWithSecurityRealm() throws Exception {
+        assertEquals(SecurityRealm.NO_AUTHENTICATION, j.jenkins.getSecurityRealm());
+        Path configXml = j.jenkins.getRootDir().toPath().resolve("config.xml");
+        Files.move(j.jenkins.getRootDir().toPath().resolve("config.xml.new"), configXml, StandardCopyOption.REPLACE_EXISTING);
+        FileTime lastModifiedTime = Files.getLastModifiedTime(configXml);
+        j.jenkins.reload();
+        assertThat(j.jenkins.getSecurityRealm(), instanceOf(HudsonPrivateSecurityRealm.class));
+        assertThat("config.xml should not have been saved", Files.getLastModifiedTime(configXml), is(lastModifiedTime));
     }
 
     @TestExtension({"testLogin123", "testLogin123WithRead"})

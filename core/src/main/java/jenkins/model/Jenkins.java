@@ -2728,6 +2728,11 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                 : this.securityRealm.getUserIdStrategy();
         this.securityRealm = securityRealm;
         // reset the filters and proxies for the new SecurityRealm
+        resetFilter(securityRealm, oldUserIdStrategy);
+        saveQuietly();
+    }
+
+    private void resetFilter(SecurityRealm securityRealm, IdStrategy oldUserIdStrategy) {
         try {
             HudsonFilter filter = HudsonFilter.get(servletContext);
             if (filter == null) {
@@ -2746,7 +2751,6 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
             // for binary compatibility, this method cannot throw a checked exception
             throw new RuntimeException("Failed to configure filter", e) {};
         }
-        saveQuietly();
     }
 
     /**
@@ -3485,7 +3489,7 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                             setSecurityRealm(new LegacySecurityRealm());
                     } else {
                         // force the set to proxy
-                        setSecurityRealm(securityRealm);
+                        resetFilter(securityRealm, securityRealm.getUserIdStrategy());
                     }
                 }
 
