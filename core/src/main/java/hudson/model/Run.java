@@ -115,6 +115,7 @@ import jenkins.model.Jenkins;
 import jenkins.model.JenkinsLocationConfiguration;
 import jenkins.model.RunAction2;
 import jenkins.model.StandardArtifactManager;
+import jenkins.model.WithUrl;
 import jenkins.model.lazy.BuildReference;
 import jenkins.model.lazy.LazyBuildMixIn;
 import jenkins.security.MasterToSlaveCallable;
@@ -153,7 +154,7 @@ import org.springframework.security.core.Authentication;
  */
 @ExportedBean
 public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, RunT>>
-        extends Actionable implements ExtensionPoint, Comparable<RunT>, AccessControlled, PersistenceRoot, DescriptorByNameOwner, OnMaster, StaplerProxy {
+        extends Actionable implements ExtensionPoint, Comparable<RunT>, AccessControlled, PersistenceRoot, DescriptorByNameOwner, OnMaster, StaplerProxy, WithUrl {
 
     /**
      * The original {@link Queue.Item#getId()} has not yet been mapped onto the {@link Run} instance.
@@ -1037,8 +1038,7 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
      * @return
      *      String like "job/foo/32/" with trailing slash but no leading slash.
      */
-    // I really messed this up. I'm hoping to fix this some time
-    // it shouldn't have trailing '/', and instead it should have leading '/'
+    @Override
     public @NonNull String getUrl() {
 
         // RUN may be accessed using permalinks, as "/lastSuccessful" or other, so try to retrieve this base URL

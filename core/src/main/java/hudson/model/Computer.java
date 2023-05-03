@@ -103,6 +103,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
+import jenkins.model.WithUrl;
 import jenkins.security.ImpersonatingExecutorService;
 import jenkins.security.MasterToSlaveCallable;
 import jenkins.security.stapler.StaplerDispatchable;
@@ -1705,7 +1706,7 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
      * @since 1.607
      */
     @Restricted(NoExternalUse.class)
-    public static class DisplayExecutor implements ModelObject {
+    public static class DisplayExecutor implements ModelObject, WithUrl {
 
         @NonNull
         private final String displayName;
@@ -1726,6 +1727,7 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
             return displayName;
         }
 
+        @Override
         @NonNull
         public String getUrl() {
             return url;

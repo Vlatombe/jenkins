@@ -53,6 +53,7 @@ import java.util.Objects;
 import java.util.concurrent.Future;
 import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
+import jenkins.model.WithUrl;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.Validate;
 import org.kohsuke.accmod.Restricted;
@@ -107,7 +108,7 @@ import org.kohsuke.stapler.verb.POST;
  * @see NodeProvisioner
  * @see AbstractCloudImpl
  */
-public abstract class Cloud extends Actionable implements ExtensionPoint, Describable<Cloud>, AccessControlled {
+public abstract class Cloud extends Actionable implements ExtensionPoint, Describable<Cloud>, AccessControlled, WithUrl {
 
     /**
      * Uniquely identifies this {@link Cloud} instance among other instances in {@link jenkins.model.Jenkins#clouds}.
@@ -133,6 +134,7 @@ public abstract class Cloud extends Actionable implements ExtensionPoint, Descri
      * @since 2.64
      * @return Jenkins relative URL.
      */
+    @Override
     public @NonNull String getUrl() {
         return "cloud/" + Util.rawEncode(name) + "/";
     }

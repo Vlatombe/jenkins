@@ -29,9 +29,7 @@ import jenkins.security.stapler.StaplerAccessibleType;
 /**
  * A model object has a human readable name.
  *
- * And it normally has URL, but this interface doesn't define one.
- * (Since there're so many classes that define the {@code getUrl} method
- * we should have such one.)
+ * It normally has URL, such objects can implement {@link jenkins.model.WithUrl}.
  *
  * @author Kohsuke Kawaguchi
  */

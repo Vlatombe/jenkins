@@ -56,6 +56,7 @@ public class SimplePageDecorator extends Descriptor<SimplePageDecorator> impleme
      */
 
     public final String getUrl() {
+        // TODO implement WithUrl and ensure this ends with a trailing slash
         return "descriptor/" + clazz.getName();
     }
 

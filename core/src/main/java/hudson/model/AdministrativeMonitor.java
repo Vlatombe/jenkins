@@ -111,6 +111,7 @@ public abstract class AdministrativeMonitor extends AbstractModelObject implemen
      * Returns the URL of this monitor, relative to the context path, like "administrativeMonitor/foobar".
      */
     public String getUrl() {
+        // TODO implement WithUrl and ensure this ends with a trailing slash
         return "administrativeMonitor/" + id;
     }
 

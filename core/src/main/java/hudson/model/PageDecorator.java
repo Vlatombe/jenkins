@@ -30,6 +30,7 @@ import hudson.ExtensionPoint;
 import hudson.util.DescriptorList;
 import java.util.List;
 import jenkins.model.Jenkins;
+import jenkins.model.WithUrl;
 
 /**
  * Participates in the rendering of HTML pages for all pages of Hudson.
@@ -66,7 +67,7 @@ import jenkins.model.Jenkins;
  * @author Kohsuke Kawaguchi
  * @since 1.235
  */
-public abstract class PageDecorator extends Descriptor<PageDecorator> implements ExtensionPoint, Describable<PageDecorator> {
+public abstract class PageDecorator extends Descriptor<PageDecorator> implements ExtensionPoint, Describable<PageDecorator>, WithUrl {
     /**
      * @param yourClass
      *      pass-in "this.getClass()" (except that the constructor parameters cannot use 'this',
@@ -96,7 +97,9 @@ public abstract class PageDecorator extends Descriptor<PageDecorator> implements
      * Every {@link PageDecorator} is bound to URL via {@link Jenkins#getDescriptor()}.
      * This method returns such an URL.
      */
+    @Override
     public final String getUrl() {
+        // TODO implement WithUrl and ensure this ends with a trailing slash
         return "descriptor/" + clazz.getName();
     }
 

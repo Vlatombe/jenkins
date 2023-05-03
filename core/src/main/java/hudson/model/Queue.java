@@ -110,6 +110,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import jenkins.model.Jenkins;
+import jenkins.model.WithUrl;
 import jenkins.model.queue.AsynchronousExecution;
 import jenkins.model.queue.CompositeCauseOfBlockage;
 import jenkins.security.QueueItemAuthenticator;
@@ -1863,7 +1864,7 @@ public class Queue extends ResourceController implements Saveable {
      * design, a {@link Task} must have at least one sub-task.)
      * Most of the time, the primary subtask is the only sub task.
      */
-    public interface Task extends ModelObject, SubTask {
+    public interface Task extends ModelObject, SubTask, WithUrl {
         /**
          * Returns true if the execution should be blocked
          * for temporary reasons.

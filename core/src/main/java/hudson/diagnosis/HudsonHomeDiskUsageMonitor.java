@@ -130,6 +130,7 @@ public final class HudsonHomeDiskUsageMonitor extends AdministrativeMonitor {
          * Returns the URL of this monitor, relative to the context path.
          */
         public String getUrl() {
+            // TODO implement WithUrl and ensure this ends with a trailing slash
             return HudsonHomeDiskUsageMonitor.get().getUrl() + "/solution/" + id;
         }
 

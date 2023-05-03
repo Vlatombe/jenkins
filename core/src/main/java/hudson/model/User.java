@@ -268,6 +268,7 @@ public class User extends AbstractModelObject implements AccessControlled, Descr
     }
 
     public @NonNull String getUrl() {
+        // TODO implement WithUrl and ensure this ends with a trailing slash
         return "user/" + Util.rawEncode(idStrategy().keyFor(id));
     }
 

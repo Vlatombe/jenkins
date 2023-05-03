@@ -96,6 +96,7 @@ import javax.xml.transform.stream.StreamSource;
 import jenkins.model.Jenkins;
 import jenkins.model.ModelObjectWithChildren;
 import jenkins.model.ModelObjectWithContextMenu;
+import jenkins.model.WithUrl;
 import jenkins.model.item_category.Categories;
 import jenkins.model.item_category.Category;
 import jenkins.model.item_category.ItemCategory;
@@ -147,7 +148,7 @@ import org.xml.sax.SAXException;
  * @see ViewGroup
  */
 @ExportedBean
-public abstract class View extends AbstractModelObject implements AccessControlled, Describable<View>, ExtensionPoint, Saveable, ModelObjectWithChildren, DescriptorByNameOwner {
+public abstract class View extends AbstractModelObject implements AccessControlled, Describable<View>, ExtensionPoint, Saveable, ModelObjectWithChildren, DescriptorByNameOwner, WithUrl {
 
     /**
      * Container of this view. Set right after the construction
@@ -540,6 +541,7 @@ public abstract class View extends AbstractModelObject implements AccessControll
      * Doesn't start with '/' but ends with '/' (except returns
      * empty string when this is the default view).
      */
+    @Override
     public String getUrl() {
         return isDefault() ? (owner != null ? owner.getUrl() : "") : getViewUrl();
     }

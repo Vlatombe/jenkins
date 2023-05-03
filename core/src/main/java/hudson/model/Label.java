@@ -66,6 +66,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import jenkins.model.Jenkins;
 import jenkins.model.ModelObjectWithChildren;
+import jenkins.model.WithUrl;
 import jenkins.util.antlr.JenkinsANTLRErrorListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -84,7 +85,7 @@ import org.kohsuke.stapler.export.ExportedBean;
  * @see Jenkins#getLabel(String)
  */
 @ExportedBean
-public abstract class Label extends Actionable implements Comparable<Label>, ModelObjectWithChildren {
+public abstract class Label extends Actionable implements Comparable<Label>, ModelObjectWithChildren, WithUrl {
     /**
      * Display name of this label.
      */
@@ -156,9 +157,7 @@ public abstract class Label extends Actionable implements Comparable<Label>, Mod
      */
     public abstract String getExpression();
 
-    /**
-     * Relative URL from the context path, that ends with '/'.
-     */
+    @Override
     public String getUrl() {
         return "label/" + Util.rawEncode(name) + '/';
     }

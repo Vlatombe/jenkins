@@ -39,6 +39,7 @@ import hudson.util.Secret;
 import java.io.IOException;
 import java.util.Collection;
 import jenkins.model.Jenkins;
+import jenkins.model.WithUrl;
 import jenkins.util.SystemProperties;
 import jenkins.util.io.OnMaster;
 import org.kohsuke.stapler.StaplerRequest;
@@ -72,7 +73,7 @@ import org.kohsuke.stapler.StaplerRequest;
  * @see Items
  * @see ItemVisitor
  */
-public interface Item extends PersistenceRoot, SearchableModelObject, AccessControlled, OnMaster {
+public interface Item extends PersistenceRoot, SearchableModelObject, AccessControlled, OnMaster, WithUrl {
     /**
      * Gets the parent that contains this item.
      */
