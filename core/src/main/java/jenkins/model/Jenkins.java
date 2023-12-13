@@ -220,6 +220,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3476,11 +3477,11 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
 
     private synchronized TaskBuilder loadTasks() throws IOException {
         File projectsDir = new File(root, "jobs");
-        if (!projectsDir.getCanonicalFile().isDirectory() && !projectsDir.mkdirs()) {
-            if (projectsDir.exists())
-                throw new IOException(projectsDir + " is not a directory");
-            throw new IOException("Unable to create " + projectsDir + "\nPermission issue? Please create this directory manually.");
+        Path d = projectsDir.toPath();
+        if (Files.isSymbolicLink(d)) {
+            d = root.toPath().resolve(Files.readSymbolicLink(d));
         }
+        Files.createDirectories(d);
         File[] subdirs = projectsDir.listFiles();
 
         final Set<String> loadedNames = Collections.synchronizedSet(new HashSet<>());
